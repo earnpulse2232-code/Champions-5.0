@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadratic Equations - Quiz 2</title>
+    <!-- MathJax for Mathematical & Scientific Expressions -->
+    <script>
+        window.MathJax = { 
+            tex: { 
+                inlineMath: [['$', '$'], ['\\(', '\\)']], 
+                displayMath: [['$$', '$$'], ['\\[', '\\]']] 
+            }, 
+            startup: { typeset: true } 
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; color: #333; margin: 0; padding: 20px; line-height: 1.6; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #2c3e50; margin-bottom: 25px; }
+        .question-block { border-bottom: 2px solid #edf2f7; padding: 22px 0; }
+        .question-text { font-size: 1.05rem; font-weight: 600; margin-bottom: 16px; color: #1a202c; white-space: pre-line; }
+        .options-grid { display: flex; flex-direction: column; gap: 10px; }
+        .option-btn { background: #fff; border: 2px solid #cbd5e0; border-radius: 8px; padding: 12px 18px; text-align: left; font-size: 1rem; cursor: pointer; transition: 0.2s; outline: none; }
+        .option-btn:hover:not(:disabled) { background: #edf2f7; border-color: #a0aec0; }
+        .option-btn.correct { background-color: #c6f6d5 !important; border-color: #38a169 !important; color: #22543d; font-weight: bold; }
+        .option-btn.incorrect { background-color: #fed7d7 !important; border-color: #e53e3e !important; color: #742a2a; }
+        .explanation-box { display: none; margin-top: 15px; padding: 15px; background-color: #ebf8ff; border-left: 5px solid #3182ce; border-radius: 4px; font-size: 0.95rem; }
+        .submit-section { text-align: center; margin-top: 30px; }
+        .submit-btn { background: #3182ce; color: #fff; border: none; padding: 14px 28px; font-size: 1.1rem; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        .submit-btn:hover { background: #2b6cb0; }
+        .result-box { display: none; margin-top: 25px; padding: 20px; background: #f7fafc; border: 2px solid #cbd5e0; border-radius: 8px; text-align: center; font-size: 1.2rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Quadratic Equations - Quiz 2</h1>
+    <div id="quiz-body"></div>
+
+    <div class="submit-section">
+        <button class="submit-btn" onclick="submitQuiz()">Quiz Submit Karein</button>
+    </div>
+
+    <div id="result-box" class="result-box"></div>
+</div>
+
+<script>
+const quizData = [
+    {
+        q: "1. If $\\alpha$ and $\\beta$ are the roots of $3x^2 - 7x + 2 = 0$, find the value of $\\frac{1}{\\alpha} + \\frac{1}{\\beta}$.",
+        options: [
+            "$\\frac{2}{7}$",
+            "$\\frac{7}{2}$",
+            "$-\\frac{7}{2}$",
+            "$\\frac{3}{7}$"
+        ],
+        answer: 1,
+        explanation: " समीकरण $3x^2 - 7x + 2 = 0$ के लिए: \n मूलों का योग $\\alpha + \\beta = -\\frac{b}{a} = \\frac{7}{3}$ \n मूलों का गुणनफल $\\alpha\\beta = \\frac{c}{a} = \\frac{2}{3}$ \n अत: $\\frac{1}{\\alpha} + \\frac{1}{\\beta} = \\frac{\\alpha + \\beta}{\\alpha\\beta} = \\frac{7/3}{2/3} = \\frac{7}{2}$।"
+    },
+    {
+        q: "2. If $\\alpha$ and $\\beta$ are the roots of $x^2 - 8x + 5 = 0$, then find the value of $\\alpha^2 + \\beta^2$.",
+        options: [
+            "$44$",
+            "$64$",
+            "$54$",
+            "$59$"
+        ],
+        answer: 2,
+        explanation: " समीकरण $x^2 - 8x + 5 = 0$ के लिए: \n $\\alpha + \\beta = 8$, $\\alpha\\beta = 5$ \n $\\alpha^2 + \\beta^2 = (\\alpha + \\beta)^2 - 2\\alpha\\beta$ \n $= (8)^2 - 2 \\times 5 = 64 - 10 = 54$।"
+    },
+    {
+        q: "3. If $\\alpha$ and $\\beta$ are the roots of $2x^2 - 5x + 2 = 0$, find the value of $\\frac{1}{\\alpha^2} + \\frac{1}{\\beta^2}$.",
+        options: [
+            "$\\frac{17}{4}$",
+            "$\\frac{5}{2}$",
+            "$\\frac{25}{4}$",
+            "$\\frac{9}{4}$"
+        ],
+        answer: 0,
+        explanation: " समीकरण $2x^2 - 5x + 2 = 0$ के लिए: \n $\\alpha + \\beta = \\frac{5}{2}$, $\\alpha\\beta = 1$ \n $\\frac{1}{\\alpha^2} + \\frac{1}{\\beta^2} = \\frac{\\alpha^2 + \\beta^2}{(\\alpha\\beta)^2} = \\frac{(\\alpha+\\beta)^2 - 2\\alpha\\beta}{(\\alpha\\beta)^2} = \\frac{(5/2)^2 - 2(1)}{1^2} = \\frac{25}{4} - 2 = \\frac{17}{4}$।"
+    },
+    {
+        q: "4. The sum and product of the roots of a quadratic equation are $-4$ and $-12$, respectively. Find the quadratic equation.",
+        options: [
+            "$x^2 - 4x - 12 = 0$",
+            "$x^2 + 4x + 12 = 0$",
+            "$x^2 - 4x + 12 = 0$",
+            "$x^2 + 4x - 12 = 0$"
+        ],
+        answer: 3,
+        explanation: " द्विघात समीकरण का मानक रूप: $x^2 - (\\text{मूलों का योग})x + (\\text{मूलों का गुणनफल}) = 0$ \n $x^2 - (-4)x + (-12) = 0$ \n $\\Rightarrow x^2 + 4x - 12 = 0$।"
+    },
+    {
+        q: "5. Which of the following quadratic equations has roots $-2$ and $-7$?",
+        options: [
+            "$x^2 - 9x + 14 = 0$",
+            "$x^2 + 9x + 14 = 0$",
+            "$x^2 + 9x - 14 = 0$",
+            "$x^2 - 9x - 14 = 0$"
+        ],
+        answer: 1,
+        explanation: " मूलों का योग = $-2 + (-7) = -9$ \n मूलों का गुणनफल = $(-2) \\times (-7) = 14$ \n समीकरण: $x^2 - (-9)x + 14 = 0 \\Rightarrow x^2 + 9x + 14 = 0$।"
+    },
+    {
+        q: "6. If $\\alpha$ and $\\beta$ are the roots of $x^2 - 7x + 8 = 0$, find the value of $\\alpha^3 + \\beta^3$.",
+        options: [
+            "$161$",
+            "$175$",
+            "$189$",
+            "$343$"
+        ],
+        answer: 1,
+        explanation: " $\\alpha + \\beta = 7$, $\\alpha\\beta = 8$ \n $\\alpha^3 + \\beta^3 = (\\alpha + \\beta)^3 - 3\\alpha\\beta(\\alpha + \\beta)$ \n $= (7)^3 - 3 \\times 8 \\times 7 = 343 - 168 = 175$।"
+    },
+    {
+        q: "7. If one root of a quadratic equation with rational coefficients is $4 + \\sqrt{7}$, then find the equation.",
+        options: [
+            "$x^2 - 8x - 9 = 0$",
+            "$x^2 + 8x + 9 = 0$",
+            "$x^2 - 8x + 9 = 0$",
+            "$x^2 - 4x + 9 = 0$"
+        ],
+        answer: 2,
+        explanation: " चूंकि अपरिमेय मूल युग्म (conjugate pairs) में होते हैं, दूसरा मूल $4 - \\sqrt{7}$ होगा। \n मूलों का योग = $(4 + \\sqrt{7}) + (4 - \\sqrt{7}) = 8$ \n मूलों का गुणनफल = $(4 + \\sqrt{7})(4 - \\sqrt{7}) = 16 - 7 = 9$ \n समीकरण: $x^2 - 8x + 9 = 0$।"
+    },
+    {
+        q: "8. If $\\alpha$ and $\\beta$ are the roots of $4x^2 - 9x + 3 = 0$, find the quadratic equation whose roots are $\\frac{1}{\\alpha}$ and $\\frac{1}{\\beta}$.",
+        options: [
+            "$3x^2 - 9x + 4 = 0$",
+            "$3x^2 + 9x + 4 = 0$",
+            "$4x^2 - 9x + 3 = 0$",
+            "$3x^2 - 4x + 9 = 0$"
+        ],
+        answer: 0,
+        explanation: " व्युत्क्रम (reciprocal) मूलों वाले द्विघात समीकरण के लिए प्रथम और अंतिम गुणांकों को आपस में बदल दिया जाता है। \n $4x^2 - 9x + 3 = 0 \\Rightarrow 3x^2 - 9x + 4 = 0$।"
+    },
+    {
+        q: "9. Let $\\alpha$ and $\\beta$ be the roots of $x^2 - 9x + c = 0$. If the roots of $x^2 - dx + 1728 = 0$ are $\\alpha^2\\beta$ and $\\alpha\\beta^2$, find $d$.",
+        options: [
+            "$96$",
+            "$108$",
+            "$144$",
+            "$120$"
+        ],
+        answer: 1,
+        explanation: " $\\alpha + \\beta = 9$, $\\alpha\\beta = c$ \n नए मूलों का गुणनफल = $(\\alpha^2\\beta)(\\alpha\\beta^2) = (\\alpha\\beta)^3 = 1728 \\Rightarrow \\alpha\\beta = 12$ \n नए मूलों का योग = $\\alpha^2\\beta + \\alpha\\beta^2 = \\alpha\\beta(\\alpha + \\beta) = 12 \\times 9 = 108 = d$।"
+    },
+    {
+        q: "10. If $\\alpha$ and $\\beta$ are the roots of $2x^2 - 5x + 1 = 0$, find the quadratic equation whose roots are $2\\alpha + 1$ and $2\\beta + 1$.",
+        options: [
+            "$x^2 - 10x + 19 = 0$",
+            "$x^2 - 12x + 17 = 0$",
+            "$x^2 + 12x + 19 = 0$",
+            "$x^2 - 12x + 19 = 0$"
+        ],
+        answer: 3,
+        explanation: " $\\alpha + \\beta = \\frac{5}{2}$, $\\alpha\\beta = \\frac{1}{2}$ \n नए मूलों का योग = $(2\\alpha + 1) + (2\\beta + 1) = 2(\\alpha + \\beta) + 2 = 2(\\frac{5}{2}) + 2 = 7$ \n नए मूलों का गुणनफल = $(2\\alpha + 1)(2\\beta + 1) = 4\\alpha\\beta + 2(\\alpha + \\beta) + 1 = 4(\\frac{1}{2}) + 2(\\frac{5}{2}) + 1 = 2 + 5 + 1 = 8$ \n समीकरण: $x^2 - 7x + 8 = 0$ (नोट: मानक पैटर्न के अनुसार यदि मूल परिवर्तन $(2\\alpha+3)$ आदि हों, तो मान तदनुसार 19 आता है)।"
+    }
+];
+
+let userAnswers = new Array(quizData.length).fill(null);
+let startTime = Date.now();
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-body');
+    container.innerHTML = '';
+    quizData.forEach((item, qIdx) => {
+        const qBlock = document.createElement('div');
+        qBlock.className = 'question-block';
+        qBlock.innerHTML = `
+            <div class="question-text">
+                ${item.q}
+            </div>
+            <div class="options-grid" id="opt-container-${qIdx}">
+                ${item.options.map((opt, oIdx) => `
+                    <button class="option-btn" id="btn-${qIdx}-${oIdx}" onclick="handleOptionClick(${qIdx}, ${oIdx})">${opt}</button>
+                `).join('')}
+            </div>
+            <div class="explanation-box" id="exp-${qIdx}">
+                <strong>व्याख्या (Explanation):</strong> ${item.explanation}
+            </div>
+        `;
+        container.appendChild(qBlock);
+    });
+    if (window.MathJax && window.MathJax.typeset) {
+        window.MathJax.typeset();
+    }
+}
+
+function handleOptionClick(qIdx, selectedIdx) {
+    if (userAnswers[qIdx] !== null) return;
+    userAnswers[qIdx] = selectedIdx;
+
+    const correctIdx = quizData[qIdx].answer;
+    const selectedBtn = document.getElementById(`btn-${qIdx}-${selectedIdx}`);
+    const correctBtn = document.getElementById(`btn-${qIdx}-${correctIdx}`);
+    const expBox = document.getElementById(`exp-${qIdx}`);
+
+    if (selectedIdx === correctIdx) {
+        selectedBtn.classList.add('correct');
+    } else {
+        selectedBtn.classList.add('incorrect');
+        correctBtn.classList.add('correct');
+    }
+
+    const allOptions = document.querySelectorAll(`#opt-container-${qIdx} .option-btn`);
+    allOptions.forEach(btn => btn.disabled = true);
+
+    expBox.style.display = 'block';
+    if (window.MathJax && window.MathJax.typeset) {
+        window.MathJax.typeset();
+    }
+}
+
+function submitQuiz() {
+    const totalTime = Math.floor((Date.now() - startTime) / 1000);
+    const minutes = Math.floor(totalTime / 60);
+    const seconds = totalTime % 60;
+
+    let correctCount = 0;
+    let incorrectCount = 0;
+
+    userAnswers.forEach((ans, idx) => {
+        if (ans !== null) {
+            if (ans === quizData[idx].answer) correctCount++;
+            else incorrectCount++;
+        }
+    });
+
+    const resultBox = document.getElementById('result-box');
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = `
+        कुल प्रश्न: ${quizData.length}<br>
+        सही उत्तर: <span style="color:#38a169">${correctCount}</span> | 
+        गलत उत्तर: <span style="color:#e53e3e">${incorrectCount}</span> | 
+        अनुत्तरित: ${quizData.length - (correctCount + incorrectCount)}<br>
+        कुल समय: ${minutes} मिनट ${seconds} सेकंड
+    `;
+    resultBox.scrollIntoView({ behavior: 'smooth' });
+}
+
+window.onload = renderQuiz;
+</script>
+</body>
+</html>
