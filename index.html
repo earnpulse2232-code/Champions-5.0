@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profit & Loss - Quiz 1</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; color: #333; margin: 0; padding: 20px; line-height: 1.6; }
+        .quiz-container { max-width: 850px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #2c3e50; margin-bottom: 25px; }
+        .question-block { border-bottom: 2px solid #edf2f7; padding: 22px 0; }
+        .question-text { font-size: 1.05rem; font-weight: 600; margin-bottom: 16px; color: #1a202c; white-space: pre-line; }
+        .q-hi { display: block; color: #4a5568; font-weight: 500; margin-top: 8px; font-size: 1rem; white-space: pre-line; }
+        .options-grid { display: flex; flex-direction: column; gap: 10px; }
+        .option-btn { background: #fff; border: 2px solid #cbd5e0; border-radius: 8px; padding: 12px 18px; text-align: left; font-size: 1rem; cursor: pointer; transition: 0.2s; outline: none; }
+        .option-btn:hover:not(:disabled) { background: #edf2f7; border-color: #a0aec0; }
+        .option-btn.correct { background-color: #c6f6d5 !important; border-color: #38a169 !important; color: #22543d; font-weight: bold; }
+        .option-btn.incorrect { background-color: #fed7d7 !important; border-color: #e53e3e !important; color: #742a2a; }
+        .explanation-box { display: none; margin-top: 15px; padding: 15px; background-color: #ebf8ff; border-left: 5px solid #3182ce; border-radius: 4px; font-size: 0.95rem; white-space: pre-line; }
+        .submit-section { text-align: center; margin-top: 30px; }
+        .submit-btn { background: #3182ce; color: #fff; border: none; padding: 14px 28px; font-size: 1.1rem; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        .submit-btn:hover { background: #2b6cb0; }
+        .result-box { display: none; margin-top: 25px; padding: 20px; background: #f7fafc; border: 2px solid #cbd5e0; border-radius: 8px; text-align: center; font-size: 1.2rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>Profit & Loss - Quiz 1</h1>
+    <div id="quiz-body"></div>
+
+    <div class="submit-section">
+        <button class="submit-btn" onclick="submitQuiz()">Quiz Submit Karein</button>
+    </div>
+
+    <div id="result-box" class="result-box"></div>
+</div>
+
+<script>
+const quizData = [
+    {
+        q: "1. A lamp is bought for ₹1,850 and sold for ₹2,120. Find the profit.",
+        h: "एक लैंप ₹1,850 में खरीदा जाता है और ₹2,120 में बेचा जाता है। लाभ ज्ञात कीजिए।",
+        options: ["₹270", "₹250", "₹320", "₹370"],
+        answer: 0,
+        explanation: "क्रय मूल्य (CP) = ₹1,850\nविक्रय मूल्य (SP) = ₹2,120\nलाभ (Profit) = SP − CP = ₹2,120 − ₹1,850 = ₹270."
+    },
+    {
+        q: "2. A bicycle costing ₹6,400 is sold for ₹5,888. Find the loss percentage.",
+        h: "₹6,400 लागत वाली एक साइकिल ₹5,888 में बेची जाती है। हानि प्रतिशत ज्ञात कीजिए।",
+        options: ["6%", "7%", "8%", "9%"],
+        answer: 2,
+        explanation: "क्रय मूल्य (CP) = ₹6,400, विक्रय मूल्य (SP) = ₹5,888\nहानि (Loss) = 6400 − 5888 = ₹512\nहानि % = (512 / 6400) × 100 = 8%."
+    },
+    {
+        q: "3. A bag costs ₹960. At 25% profit, what is its selling price?",
+        h: "एक बैग की कीमत ₹960 है। 25% लाभ पर इसका विक्रय मूल्य क्या है?",
+        options: ["₹1,150", "₹1,200", "₹1,220", "₹1,250"],
+        answer: 1,
+        explanation: "क्रय मूल्य (CP) = ₹960\n25% = 1/4, अतः SP = 960 × (5/4) = ₹1,200 (या 960 × 125% = ₹1,200)."
+    },
+    {
+        q: "4. An article is sold at a loss of 20%. Find CP : SP.",
+        h: "एक वस्तु को 20% की हानि पर बेचा जाता है। CP : SP ज्ञात कीजिए।",
+        options: ["4 : 5", "6 : 5", "5 : 4", "5 : 6"],
+        answer: 2,
+        explanation: "माना CP = 100, तो 20% हानि पर SP = 100 − 20 = 80\nCP : SP = 100 : 80 = 5 : 4."
+    },
+    {
+        q: "5. A mixer is sold for ₹3,450 at 15% profit. Find its cost price.",
+        h: "एक मिक्सर को 15% लाभ पर ₹3,450 में बेचा जाता है। इसका क्रय मूल्य ज्ञात कीजिए।",
+        options: ["₹2,900", "₹3,000", "₹3,100", "₹3,200"],
+        answer: 1,
+        explanation: "माना CP = 100%\n15% लाभ पर विक्रय मूल्य = 115% = ₹3,450\n1% = 3450 / 115 = ₹30\nअतः CP (100%) = 30 × 100 = ₹3,000."
+    },
+    {
+        q: "6. A trader buys 15 notebooks for ₹900 and sells each for ₹72. Find his profit percentage.",
+        h: "एक व्यापारी ₹900 में 15 नोटबुक खरीदता है और प्रत्येक को ₹72 में बेचता है। उसका लाभ प्रतिशत ज्ञात कीजिए।",
+        options: ["15%", "18%", "20%", "25%"],
+        answer: 2,
+        explanation: "1 नोटबुक का CP = 900 / 15 = ₹60\n1 नोटबुक का SP = ₹72\nCP : SP = 60 : 72 = 5 : 6 = 100 : 120\nलाभ % = (12 / 60) × 100 = 20%."
+    },
+    {
+        q: "7. A used chair is bought for ₹2,700; ₹300 is spent on repairs. It is sold for ₹3,450. Find the profit percentage.",
+        h: "एक पुरानी कुर्सी ₹2,700 में खरीदी जाती है; इसकी मरम्मत पर ₹300 खर्च किए जाते हैं। इसे ₹3,450 में बेचा जाता है। लाभ प्रतिशत ज्ञात कीजिए।",
+        options: ["12%", "15%", "18%", "20%"],
+        answer: 1,
+        explanation: "कुल CP = 2700 + 300 = ₹3,000\nSP = ₹3,450\nलाभ = 3450 − 3000 = ₹450\nलाभ % = (450 / 3000) × 100 = 15%."
+    },
+    {
+        q: "8. A seller buys 8 identical watches for ₹12,800. He sells 3 of them for ₹5,760. Find his profit percentage on these 3 watches.",
+        h: "एक विक्रेता ₹12,800 में 8 एक जैसी घड़ियाँ खरीदता है। वह उनमें से 3 घड़ियाँ ₹5,760 में बेचता है। इन 3 घड़ियों पर उसका लाभ प्रतिशत ज्ञात कीजिए।",
+        options: ["15%", "18%", "20%", "25%"],
+        answer: 2,
+        explanation: "1 घड़ी का CP = 12800 / 8 = ₹1,600 (या 3 घड़ियों का CP = 1600 × 3 = ₹4,800)\n1 घड़ी का SP = 5760 / 3 = ₹1,920\nCP : SP = 1600 : 1920 = 5 : 6 = 100 : 120\nलाभ % = (320 / 1600) × 100 = 20%."
+    },
+    {
+        q: "9. A dealer sells an article for ₹2,700. Had he sold it for ₹3,150, his profit percentage would have been 15 percentage points higher. Find the cost price.",
+        h: "एक व्यापारी एक वस्तु को ₹2,700 में बेचता है। यदि उसने इसे ₹3,150 में बेचा होता, तो उसका लाभ प्रतिशत 15 प्रतिशत अंक अधिक होता। क्रय मूल्य ज्ञात कीजिए।",
+        options: ["₹2,700", "₹3,000", "₹3,200", "₹3,600"],
+        answer: 1,
+        explanation: "विक्रय मूल्य में वृद्धि = 3150 − 2700 = ₹450\nप्रश्न के अनुसार, CP का 15% = ₹450\n1% = 450 / 15 = ₹30\nअतः क्रय मूल्य (100%) = 30 × 100 = ₹3,000."
+    },
+    {
+        q: "10. A trader buys 24 identical items at ₹75 each. Four items are damaged and cannot be sold. At what price per remaining item must he sell to earn 20% profit overall?",
+        h: "एक व्यापारी ₹75 प्रति वस्तु की दर से 24 एक जैसी वस्तुएं खरीदता है। चार वस्तुएं खराब हो जाती हैं और बेची नहीं जा सकतीं। कुल मिलाकर 20% लाभ अर्जित करने के लिए उसे शेष प्रत्येक वस्तु को किस मूल्य पर बेचना चाहिए?",
+        options: ["₹90", "₹100", "₹108", "₹112"],
+        answer: 2,
+        explanation: "कुल CP = 24 × 75 = ₹1,800\n20% लाभ पर कुल SP = 1800 × 120% = ₹2,160\nशेष वस्तुएं = 24 − 4 = 20\nप्रत्येक शेष वस्तु का आवश्यक SP = 2160 / 20 = ₹108."
+    }
+];
+
+let userAnswers = new Array(quizData.length).fill(null);
+let startTime = Date.now();
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-body');
+    container.innerHTML = '';
+    quizData.forEach((item, qIdx) => {
+        const qBlock = document.createElement('div');
+        qBlock.className = 'question-block';
+        qBlock.innerHTML = `
+            <div class="question-text">
+                ${item.q}
+                <span class="q-hi">${item.h}</span>
+            </div>
+            <div class="options-grid" id="opt-container-${qIdx}">
+                ${item.options.map((opt, oIdx) => `
+                    <button class="option-btn" id="btn-${qIdx}-${oIdx}" onclick="handleOptionClick(${qIdx}, ${oIdx})">${opt}</button>
+                `).join('')}
+            </div>
+            <div class="explanation-box" id="exp-${qIdx}">
+                <strong>व्याख्या (Explanation):</strong> ${item.explanation}
+            </div>
+        `;
+        container.appendChild(qBlock);
+    });
+}
+
+function handleOptionClick(qIdx, selectedIdx) {
+    if (userAnswers[qIdx] !== null) return;
+    userAnswers[qIdx] = selectedIdx;
+
+    const correctIdx = quizData[qIdx].answer;
+    const selectedBtn = document.getElementById(`btn-${qIdx}-${selectedIdx}`);
+    const correctBtn = document.getElementById(`btn-${qIdx}-${correctIdx}`);
+    const expBox = document.getElementById(`exp-${qIdx}`);
+
+    if (selectedIdx === correctIdx) {
+        selectedBtn.classList.add('correct');
+    } else {
+        selectedBtn.classList.add('incorrect');
+        correctBtn.classList.add('correct');
+    }
+
+    const allOptions = document.querySelectorAll(`#opt-container-${qIdx} .option-btn`);
+    allOptions.forEach(btn => btn.disabled = true);
+
+    expBox.style.display = 'block';
+}
+
+function submitQuiz() {
+    const totalTime = Math.floor((Date.now() - startTime) / 1000);
+    const minutes = Math.floor(totalTime / 60);
+    const seconds = totalTime % 60;
+
+    let correctCount = 0;
+    let incorrectCount = 0;
+
+    userAnswers.forEach((ans, idx) => {
+        if (ans !== null) {
+            if (ans === quizData[idx].answer) correctCount++;
+            else incorrectCount++;
+        }
+    });
+
+    const resultBox = document.getElementById('result-box');
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = `
+        कुल प्रश्न: ${quizData.length}<br>
+        सही उत्तर: <span style="color:#38a169">${correctCount}</span> | 
+        गलत उत्तर: <span style="color:#e53e3e">${incorrectCount}</span> | 
+        अनुत्तरित: ${quizData.length - (correctCount + incorrectCount)}<br>
+        कुल समय: ${minutes} मिनट ${seconds} सेकंड
+    `;
+    resultBox.scrollIntoView({ behavior: 'smooth' });
+}
+
+window.onload = renderQuiz;
+</script>
+</body>
+</html>
